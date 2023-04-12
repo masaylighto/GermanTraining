@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GermanTraining.Pages;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,41 @@ namespace GermanTraining
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        public ArticlesPage ArticlesPage { get; }
+        public CardsPage CardsPage { get; }
+        public PhrasesPage PhrasesPage { get; }
+
+        public MainWindow(ArticlesPage articlesPage ,CardsPage cardsPage, PhrasesPage phrasesPage)
         {
             InitializeComponent();
+            ArticlesPage = articlesPage;
+            CardsPage = cardsPage;
+            PhrasesPage = phrasesPage;
+        }
+
+        void Close(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        void DragMoveWindow(object sender, MouseButtonEventArgs e)
+        {
+            DragMove();
+        }
+
+        void LoadCardPage(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content= CardsPage;
+        }
+
+        void LoadPhrasesPage(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = PhrasesPage;
+        }
+
+        void LoadArticlesPage(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content= ArticlesPage;
         }
     }
 }

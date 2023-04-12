@@ -5,8 +5,104 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GermanTraining"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" MinHeight="700" MinWidth="1200" Background="Transparent" AllowsTransparency="True" WindowStyle="None">
+    <Window.Resources>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FF707070"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFC4E5F6"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFF4F4F4"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFADB2B5"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FF838383"/>
+        <Style x:Key="FuturisticButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" CornerRadius="10" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.MouseOver.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.MouseOver.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Pressed.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Pressed.Border}"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="{StaticResource Button.Disabled.Background}"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource Button.Disabled.Border}"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="{StaticResource Button.Disabled.Foreground}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Border  MouseLeftButtonDown="DragMoveWindow" ClipToBounds="True" Background="Transparent" BorderThickness="1" BorderBrush="White" CornerRadius="5" Padding="0">
+        <Grid  Background="Transparent">
+            <Border  Background="#66FFFFFF"  BorderThickness="0" BorderBrush="Transparent" Padding="50">
+                <Frame NavigationUIVisibility="Hidden" x:Name="MainFrame" Background="White" />
+            </Border>
+            <Button Content="✖" HorizontalAlignment="Right" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Click="Close"/>
 
-    </Grid>
+            <StackPanel Background="Transparent" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="48,22,0,0" Height="28">
+                <Button    BorderBrush="Transparent" FontSize="16" Click="LoadCardPage"  Background="Transparent"    Width="110" Foreground="Black" Height="30">
+                    <Border CornerRadius="0,5,0,0"  Background="#ff5e7d" ClipToBounds="True" Height="30">
+                        <Grid  Width="110" >
+                            <Path Fill="White" StrokeThickness="0" Stroke="Transparent" Data="m 0,0
+                                  l 20,0
+                                  c 1,5 2,15 12,30
+                                  l -32,0
+                                  "></Path>
+                            <Label HorizontalAlignment="Left" Foreground="White" Margin="28,-4,0,0" VerticalAlignment="Top" Height="34" FontStretch="SemiCondensed" FontSize="20" Content="Cards"/>
+                        </Grid>
+                    </Border>
+                </Button>
+                <Button    BorderBrush="Transparent" FontSize="16" Click="LoadArticlesPage"  Background="Transparent"    Width="110" Foreground="Black" Height="30">
+                    <Border CornerRadius="0,5,0,0"  Background="#ffaa71" ClipToBounds="True" Height="30">
+                        <Grid  Width="110" >
+                            <Path Fill="White" StrokeThickness="0" Stroke="Transparent" Data="m 0,0                                   l 20,0                                   c 1,5 2,15 12,30                                   l -32,0                                   "/>
+                            <Label HorizontalAlignment="Left" Foreground="White" Margin="28,-4,0,0" VerticalAlignment="Top" Height="34" FontStretch="SemiCondensed" FontSize="20" Content="Articles"/>
+                        </Grid>
+                    </Border>
+                </Button>
+                <Button    BorderBrush="Transparent" FontSize="16" Click="LoadPhrasesPage"  Background="Transparent"    Width="110" Foreground="Black" Height="30">
+                    <Border CornerRadius="0,5,0,0"  Background="#00beb2" ClipToBounds="True" Height="30">
+                        <Grid  Width="110" >
+                            <Path Fill="White" StrokeThickness="0" Stroke="Transparent" Data="m 0,0                                   l 20,0                                   c 1,5 2,15 12,30                                   l -32,0                                   "/>
+                            <Label HorizontalAlignment="Left" Foreground="White" Margin="28,-4,0,0" VerticalAlignment="Top" Height="34" FontStretch="SemiCondensed" FontSize="20" Content="Phrases"/>
+                        </Grid>
+                    </Border>
+                </Button>
+
+            </StackPanel>
+
+
+        </Grid>
+    </Border>
 </Window>
