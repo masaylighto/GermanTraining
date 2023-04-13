@@ -1,4 +1,7 @@
-﻿using System;
+﻿using GermanTraining.ViewModels;
+using Logic.Core;
+using Logic.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,24 +23,12 @@ namespace GermanTraining.Pages
     /// </summary>
     public partial class ArticlesPage : Page
     {
-        public ArticlesPage()
+
+        public ArticlesPage(ArticlesViewModel viewModel)
         {
             InitializeComponent();
+            DataContext = viewModel;
         }
-
-        void Masculine(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        void Neuter(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        void Feminine(object sender, RoutedEventArgs e)
-        {
-
-        }
+        
     }
 }

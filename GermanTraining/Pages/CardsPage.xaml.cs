@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GermanTraining.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,10 @@ namespace GermanTraining.Pages
     /// </summary>
     public partial class CardsPage : Page
     {
-        public CardsPage()
+        public CardsPage(CardsViewModel viewModel)
         {
             InitializeComponent();
+            DataContext = viewModel;
         }
 
         void GiveMeAtopic(object sender, RoutedEventArgs e)

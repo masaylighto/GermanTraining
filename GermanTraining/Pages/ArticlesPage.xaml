@@ -41,11 +41,11 @@
     </Page.Resources>
 
     <Grid Background="White">
-        <StackPanel x:Name="articlesStack"  Orientation="Horizontal" Height="NaN" Width="NaN" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Template="{DynamicResource RoundedBtn}"  Content="Masculine" BorderBrush="#FFFF5E7D" Height="35" Width="100" Background="{x:Null}" FontSize="14" Click="Masculine" Foreground="#FFFF5E7D"/>
-            <Button Template="{DynamicResource RoundedBtn}" Content="Neuter" BorderBrush="#FFFFAA71" Height="35" Width="100" Background="{x:Null}" Margin="50,0,50,0" FontSize="14" Click="Neuter" Foreground="#FFFFAA71"/>
-            <Button Template="{DynamicResource RoundedBtn}" Content="Feminine" BorderBrush="#FF00BEB2" Height="35" Width="100" Background="{x:Null}" FontSize="14" Click="Feminine" Foreground="#FF00BEB2"/>
+        <StackPanel x:Name="articlesStack"  Orientation="Horizontal"  RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <Button Template="{DynamicResource RoundedBtn}" Content="Masculine" BorderBrush="#FFFF5E7D" Height="35" Width="100" Background="{x:Null}" FontSize="14" Command="{Binding MasculineCommand}" Foreground="#FFFF5E7D"/>
+            <Button Template="{DynamicResource RoundedBtn}" Content="Neuter"    BorderBrush="#FFFFAA71" Height="35" Width="100" Background="{x:Null}" FontSize="14" Command="{Binding NeuterCommand }"    Foreground="#FFFFAA71" Margin="50,0,50,0"/>
+            <Button Template="{DynamicResource RoundedBtn}" Content="Feminine"  BorderBrush="#FF00BEB2" Height="35" Width="100" Background="{x:Null}" FontSize="14" Command="{Binding FeminineCommand }"  Foreground="#FF00BEB2"/>
         </StackPanel>
-        <Label Content="German Word" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,98,0,0" FontSize="22"/>
+        <Label Content="{Binding CurrentNoun.GermanWord}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,98,0,0" FontSize="22"/>
     </Grid>
 </Page>

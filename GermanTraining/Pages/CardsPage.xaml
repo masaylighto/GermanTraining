@@ -41,9 +41,9 @@
     </Page.Resources>
     <Grid Background="white">
         <Grid HorizontalAlignment="Center" Height="400" VerticalAlignment="Center" Width="400">
-            <Button Template="{DynamicResource RoundedBtn}" Content="Give me a topic" BorderBrush="#FFFF5E7D" Background="{x:Null}" FontSize="16" Click="GiveMeAtopic" Margin="0,275,0,0" Width="156" Height="58" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="#FFFF5E7D"/>
+            <Button Template="{DynamicResource RoundedBtn}" Content="Give me a topic" BorderBrush="#FFFF5E7D" Background="{x:Null}" FontSize="16" Command="{Binding GiveMeAtopicCommand}" Margin="0,275,0,0" Width="156" Height="58" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="#FFFF5E7D"/>
             <Border BorderBrush="#FFA7A7A7" BorderThickness="1" CornerRadius="4" Margin="0,46,0,0" Width="156" Height="153" HorizontalAlignment="Center" VerticalAlignment="Top">
-                <Label Content="Topic" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
+                <Label Content="{Binding CurrentWord.GermanWord}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16"/>
 
             </Border>
         </Grid>

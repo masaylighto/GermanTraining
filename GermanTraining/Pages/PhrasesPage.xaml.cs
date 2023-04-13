@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GermanTraining.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,19 +21,12 @@ namespace GermanTraining.Pages
     /// </summary>
     public partial class PhrasesPage : Page
     {
-        public PhrasesPage()
+        public PhrasesPage(PhrasesViewModel viewModel)
         {
             InitializeComponent();
+            DataContext = viewModel;
         }
 
-        void Skip(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        void Submit(object sender, RoutedEventArgs e)
-        {
-
-        }
+       
     }
 }
