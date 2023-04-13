@@ -24,7 +24,7 @@ public class ExcelService: IExcelService
         {
             int skip = Contract.Skip.HasValue ? Contract.Skip.Value : 0;
             int take = Contract.Take.HasValue ? Contract.Take.Value : NounCount;
-            ExcelRepo.Nouns.ElementAtOrDefault(Random.Shared.Next(skip, take)); // we might encounter empty value , in this loop we ensure that we will return non empty value
+            excelRow=ExcelRepo.Nouns.ElementAtOrDefault(Random.Shared.Next(skip, take)); // we might encounter empty value , in this loop we ensure that we will return non empty value
         }
         return excelRow;
     }
