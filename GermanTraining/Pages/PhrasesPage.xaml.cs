@@ -24,5 +24,15 @@ namespace GermanTraining.Pages
         {
             InitializeComponent();
         }
+
+        void Skip(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        void Submit(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

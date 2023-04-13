@@ -42,9 +42,9 @@
 
     <Grid Background="White">
         <StackPanel x:Name="articlesStack"  Orientation="Horizontal" Height="NaN" Width="NaN" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Template="{DynamicResource RoundedBtn}"  Content="Masculine" BorderBrush="Transparent" Height="35" Width="100" Background="#FFEF9E9E" FontSize="14" Click="Masculine"/>
-            <Button Template="{DynamicResource RoundedBtn}" Content="Neuter" BorderBrush="Transparent" Height="35" Width="100" Background="#FFADFFBD" Margin="50,0,50,0" FontSize="14" Click="Neuter"/>
-            <Button Template="{DynamicResource RoundedBtn}" Content="Feminine" BorderBrush="Transparent" Height="35" Width="100" Background="#FFFFD7EF" FontSize="14" Click="Feminine"/>
+            <Button Template="{DynamicResource RoundedBtn}"  Content="Masculine" BorderBrush="#FFFF5E7D" Height="35" Width="100" Background="{x:Null}" FontSize="14" Click="Masculine" Foreground="#FFFF5E7D"/>
+            <Button Template="{DynamicResource RoundedBtn}" Content="Neuter" BorderBrush="#FFFFAA71" Height="35" Width="100" Background="{x:Null}" Margin="50,0,50,0" FontSize="14" Click="Neuter" Foreground="#FFFFAA71"/>
+            <Button Template="{DynamicResource RoundedBtn}" Content="Feminine" BorderBrush="#FF00BEB2" Height="35" Width="100" Background="{x:Null}" FontSize="14" Click="Feminine" Foreground="#FF00BEB2"/>
         </StackPanel>
         <Label Content="German Word" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,98,0,0" FontSize="22"/>
     </Grid>

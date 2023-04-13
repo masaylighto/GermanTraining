@@ -31,6 +31,7 @@ namespace GermanTraining
             ArticlesPage = articlesPage;
             CardsPage = cardsPage;
             PhrasesPage = phrasesPage;
+            MainFrame.Content = CardsPage;
         }
 
         void Close(object sender, RoutedEventArgs e)
