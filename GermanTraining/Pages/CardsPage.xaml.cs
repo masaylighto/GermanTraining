@@ -24,5 +24,10 @@ namespace GermanTraining.Pages
         {
             InitializeComponent();
         }
+
+        void GiveMeAtopic(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

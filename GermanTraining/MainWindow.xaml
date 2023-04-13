@@ -65,26 +65,22 @@
     </Window.Resources>
     <Border  MouseLeftButtonDown="DragMoveWindow" ClipToBounds="True" Background="Transparent" BorderThickness="1" BorderBrush="White" CornerRadius="5" Padding="0">
         <Grid  Background="Transparent">
-            <Border  Background="#66FFFFFF"  BorderThickness="0" BorderBrush="Transparent" Padding="50">
+            <Border  Background="#66FFFFFF"  BorderThickness="0" BorderBrush="Transparent" Padding="29">
                 <Frame NavigationUIVisibility="Hidden" x:Name="MainFrame" Background="White" />
             </Border>
             <Button Content="✖" HorizontalAlignment="Right" VerticalAlignment="Top" Background="{x:Null}" BorderBrush="{x:Null}" Click="Close"/>
 
-            <StackPanel Background="Transparent" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="48,22,0,0" Height="28">
+            <StackPanel Background="white" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="27,2,0,0" Height="28">
                 <Button    BorderBrush="Transparent" FontSize="16" Click="LoadCardPage"  Background="Transparent"    Width="110" Foreground="Black" Height="30">
-                    <Border CornerRadius="0,5,0,0"  Background="#ff5e7d" ClipToBounds="True" Height="30">
+                    <Border   Background="#ff5e7d" ClipToBounds="True" Width="108" Height="30">
                         <Grid  Width="110" >
-                            <Path Fill="White" StrokeThickness="0" Stroke="Transparent" Data="m 0,0
-                                  l 20,0
-                                  c 1,5 2,15 12,30
-                                  l -32,0
-                                  "></Path>
+                            <Path Fill="White" StrokeThickness="0" Stroke="Transparent" Data="m 0,0                                   l 20,0                                   c 1,5 2,15 12,30                                   l -32,0                                   "/>
                             <Label HorizontalAlignment="Left" Foreground="White" Margin="28,-4,0,0" VerticalAlignment="Top" Height="34" FontStretch="SemiCondensed" FontSize="20" Content="Cards"/>
                         </Grid>
                     </Border>
                 </Button>
                 <Button    BorderBrush="Transparent" FontSize="16" Click="LoadArticlesPage"  Background="Transparent"    Width="110" Foreground="Black" Height="30">
-                    <Border CornerRadius="0,5,0,0"  Background="#ffaa71" ClipToBounds="True" Height="30">
+                    <Border   Background="#ffaa71" ClipToBounds="True" Width="110" Height="30">
                         <Grid  Width="110" >
                             <Path Fill="White" StrokeThickness="0" Stroke="Transparent" Data="m 0,0                                   l 20,0                                   c 1,5 2,15 12,30                                   l -32,0                                   "/>
                             <Label HorizontalAlignment="Left" Foreground="White" Margin="28,-4,0,0" VerticalAlignment="Top" Height="34" FontStretch="SemiCondensed" FontSize="20" Content="Articles"/>
@@ -92,7 +88,7 @@
                     </Border>
                 </Button>
                 <Button    BorderBrush="Transparent" FontSize="16" Click="LoadPhrasesPage"  Background="Transparent"    Width="110" Foreground="Black" Height="30">
-                    <Border CornerRadius="0,5,0,0"  Background="#00beb2" ClipToBounds="True" Height="30">
+                    <Border Width="110"  Background="#00beb2" ClipToBounds="True" Height="30">
                         <Grid  Width="110" >
                             <Path Fill="White" StrokeThickness="0" Stroke="Transparent" Data="m 0,0                                   l 20,0                                   c 1,5 2,15 12,30                                   l -32,0                                   "/>
                             <Label HorizontalAlignment="Left" Foreground="White" Margin="28,-4,0,0" VerticalAlignment="Top" Height="34" FontStretch="SemiCondensed" FontSize="20" Content="Phrases"/>

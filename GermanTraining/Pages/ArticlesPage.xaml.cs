@@ -25,17 +25,17 @@ namespace GermanTraining.Pages
             InitializeComponent();
         }
 
-        private void Masculine(object sender, RoutedEventArgs e)
+        void Masculine(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void Neuter(object sender, RoutedEventArgs e)
+        void Neuter(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void Feminine(object sender, RoutedEventArgs e)
+        void Feminine(object sender, RoutedEventArgs e)
         {
 
         }
