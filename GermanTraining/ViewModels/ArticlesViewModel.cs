@@ -18,6 +18,7 @@ public partial class ArticlesViewModel:ObservableObject
     public ArticlesViewModel(IExcelService excelService)
     {
         ExcelService = excelService;
+        NextNoun();
     }
     /*-----------------------------Property------------------------------*/
     [ObservableProperty]
