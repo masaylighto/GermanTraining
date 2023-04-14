@@ -1,5 +1,5 @@
 # GermanTraining
-A Simple Application in C# that i use for training my german language skill
+A Simple Application in C# that i built yo train my german language skill
 ## Requirment
 1. Net Core 7
 2. GPT API Access Token
