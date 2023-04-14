@@ -2,8 +2,12 @@
 
 using GermanTraining.Pages;
 using GermanTraining.ViewModels;
+using LinqToExcel;
+using Logic.Core;
+using Logic.Core.Helpers;
 using Logic.Repositories;
 using Logic.Services;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -28,6 +32,10 @@ public class Program
     static IHost CreateHostBuilder(string[] args)
     {
         var host = Host.CreateDefaultBuilder(args);
+        host.ConfigureAppConfiguration((ConfigBuilder) => {
+            ConfigBuilder.AddEnvironmentVariables();
+            ConfigBuilder.AddJsonFile("AppSettings.json");
+        });
         host.ConfigureServices(AddService);        
         return host.Build();
     }
@@ -44,8 +52,24 @@ public class Program
         services.AddScoped<PhrasesPage>();        
         services.AddScoped<PhrasesViewModel>();
 
-        services.AddExcelRepository();
+        services.AddSerilogLogger();
+
+        services.AddGPTClient(CreateGPTApiConfig(context.Configuration));
+        services.AddGPTService();
+
+        services.AddExcelRepository(CreateExcelQueryFactory(context.Configuration));
         services.AddExcelService();
+    }
+    static GPTApiConfig CreateGPTApiConfig(IConfiguration configuration) 
+    {
+        GPTApiConfig config = new GPTApiConfig(); 
+        configuration.GetSection("GptApiConfig").Bind(config); //fill from json file
+        configuration.Bind(config);//fill from environment variable
+        return config;
+    }
+    static ExcelQueryFactory CreateExcelQueryFactory(IConfiguration configuration)
+    {
+        return new(configuration.GetValue<string>("ExcelFilePath"));
     }
 
 }

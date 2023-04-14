@@ -122,15 +122,16 @@
     <Border  Background="White" CornerRadius="4" Padding="4" BorderThickness="0">
         <Grid>
 
-            <Grid Width="600" Height="340" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Button Template="{DynamicResource RoundedBtn}" Content="Submit" BorderBrush="#FFFFAA71" Background="{x:Null}" FontSize="14" Command="{Binding SubmitCommand}" Margin="0,0,91,57" Width="100" Height="35" VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="#FFFFAA71"/>
-                    <Button Template="{DynamicResource RoundedBtn}" Content="Skip"   BorderBrush="#FFFF5E7D" Background="{x:Null}" FontSize="14" Command="{Binding SkipCommand}"   Margin="84,0,0,60" Width="100" Height="35" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="#FFFF5E7D"/>
-                    <TextBox   HorizontalAlignment="Center" AcceptsReturn="True" TextWrapping="Wrap" SpellCheck.IsEnabled="True" Text="{Binding UserPhrases}" Width="432" Height="126" VerticalAlignment="Center" FontSize="14">
+            <Grid Width="600" Height="340" HorizontalAlignment="Center" IsEnabled="{Binding ButtonGridEnabled}" VerticalAlignment="Center">
+                <Button Template="{DynamicResource RoundedBtn}" Content="Submit" BorderBrush="#FFFFAA71" Background="{x:Null}" FontSize="14" Command="{Binding SubmitCommand}" Margin="0,0,91,57" Width="100" Height="35" VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="#FFFFAA71"/>
+                <Button Template="{DynamicResource RoundedBtn}" Content="Next"   BorderBrush="#FFFF5E7D" Background="{x:Null}" FontSize="14" Command="{Binding NextCommand}"   Margin="84,0,0,60" Width="100" Height="35" VerticalAlignment="Bottom" HorizontalAlignment="Left" Foreground="#FFFF5E7D"/>
+                <TextBox   HorizontalAlignment="Center" AcceptsReturn="True" TextWrapping="Wrap" SpellCheck.IsEnabled="True" Text="{Binding UserPhrases}" Width="432" Height="126" VerticalAlignment="Center" FontSize="14">
 
-                    </TextBox>
-                    <Label Content="{Binding CurrentWord.GermanWord}" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="16" Margin="0,35,0,0"/>
-                </Grid>
-
+                </TextBox>
+                <Label Content="{Binding CurrentWord.GermanWord}" HorizontalAlignment="Center" VerticalAlignment="Top" FontSize="16" Margin="0,35,0,0"/>
             </Grid>
+            <ProgressBar HorizontalAlignment="Center" Height="11" Visibility="{Binding ProgressBarVisiiblity}" Margin="0,25,0,0" VerticalAlignment="Top" Width="105" IsIndeterminate="True" Background="White" BorderBrush="White" Foreground="#FF0AB6FF"/>
+
+        </Grid>
     </Border>
 </Page>
