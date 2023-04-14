@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:tz="http://schemas.abtsoftware.co.uk/transitionz"
       xmlns:local="clr-namespace:GermanTraining.Pages"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
@@ -41,12 +42,15 @@
     </Page.Resources>
     <Border  Background="White" CornerRadius="4" Padding="4" BorderThickness="0">
     <Grid>
-        <StackPanel x:Name="articlesStack"  Orientation="Horizontal"  RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel x:Name="articlesStack"  IsEnabled="{Binding IsArticleButtonClickable}" Orientation="Horizontal"  RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Button Template="{DynamicResource RoundedBtn}" Content="Masculine" BorderBrush="#FFFF5E7D" Height="35" Width="100" Background="{x:Null}" FontSize="14" Command="{Binding MasculineCommand}" Foreground="#FFFF5E7D"/>
             <Button Template="{DynamicResource RoundedBtn}" Content="Neuter"    BorderBrush="#FFFFAA71" Height="35" Width="100" Background="{x:Null}" FontSize="14" Command="{Binding NeuterCommand }"    Foreground="#FFFFAA71" Margin="50,0,50,0"/>
             <Button Template="{DynamicResource RoundedBtn}" Content="Feminine"  BorderBrush="#FF00BEB2" Height="35" Width="100" Background="{x:Null}" FontSize="14" Command="{Binding FeminineCommand }"  Foreground="#FF00BEB2"/>
         </StackPanel>
         <Label Content="{Binding CurrentNoun.GermanWord}" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,98,0,0" FontSize="22"/>
-    </Grid>
+            <Border x:Name="NotificationBorder" BorderBrush="{Binding NotificationBorderColor}" Visibility="{Binding NotificationBorderVisiblity}" CornerRadius="4" BorderThickness="1" Margin="20,20,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"  Height="40">
+                <Label Content="{Binding NotificationLabelContent}"/>
+            </Border>
+        </Grid>
     </Border>
 </Page>

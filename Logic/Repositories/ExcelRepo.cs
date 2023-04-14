@@ -24,9 +24,9 @@ public class ExcelRepo: IExcelRepo
     public IEnumerable<ExcelRow> Words => WorksheetNoHeader()
         .Select(col => new ExcelRow
         {
-            Article = col[0] ?? string.Empty,
-            GermanWord = col[1] ?? string.Empty,
-            Translation = col[2] ?? string.Empty
+            Article = (col[0] ?? string.Empty).Trim(),
+            GermanWord = (col[1] ?? string.Empty).Trim(),
+            Translation = (col[2] ?? string.Empty).Trim()
         });
     public IEnumerable<ExcelRow> Nouns => Words.Where(x => !string.IsNullOrEmpty(x.Article));
 
