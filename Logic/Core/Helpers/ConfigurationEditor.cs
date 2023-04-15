@@ -55,10 +55,7 @@ namespace Logic.Core.Helpers
                 var keys = key.Split(":"); // if the key is nested it will be separated by :
                                            // and if we need to reach it value we need to navigate
                                            // and so we need to convert the key into string of keys for navigation
-                if (keys.Length==0)
-                {
-                    return new Exception($" Key is Empty");
-                }
+             
 
                 EditJson(keys, value);
                 SaveJson();
@@ -77,26 +74,37 @@ namespace Logic.Core.Helpers
             //if its we remove the node that hold the key then we replace it with another one
             try
             {
-                var node = Json.Value.AsObject().FirstOrDefault(x => x.Key == keys.First()).Value;
-                if (node is null)
+                if (keys.Length == 0)
+                {
+                    return new Exception($" Key is Empty");
+                }
+                var node = Json.Value.AsObject().FirstOrDefault(x => x.Key == keys.First());
+                if (node.Value is null)
                 {
                     return new NullReferenceException("first node is null");
+                }
+                if (keys.Length==1)
+                {
+                    Json.Value.AsObject().Remove(node.Key);
+                    Json.Value.AsObject().Add(new KeyValuePair<string, JsonNode?>(node.Key, JsonValue.Create(value)));
+                    return new Ok();
                 }
                 for (int i = 1; i < keys.Length; i++)
                 {
                     var _key = keys[i];
-                    var current = node.AsObject().FirstOrDefault(x => x.Key == _key);
+                    var current = node.Value.AsObject().FirstOrDefault(x => x.Key == _key);
                     if (current.Value is null)
                     {
                         return new NullReferenceException($"{_key} is null");
                     }
                     if (current.Key == keys.Last())
                     {
-                        node.AsObject().Remove(current.Key);
-                        node.AsObject().Add(new KeyValuePair<string, JsonNode?>(_key, JsonValue.Create(value)));
+                 
+                        node.Value.AsObject().Remove(current.Key);
+                        node.Value.AsObject().Add(new KeyValuePair<string, JsonNode?>(_key, JsonValue.Create(value)));
                         return new Ok();
                     }
-                    node = current.Value;
+                    node = current;
                 }
                 return new Exception("Key not found");
             }
