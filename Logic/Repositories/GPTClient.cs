@@ -44,19 +44,27 @@ namespace Logic.Repositories
 
         public async Task<OneOf<String, Exception>> GetAnswer(string Question)
         {
-            var messageContent = BuildRequestBody(Question);
-            var gptResponse = await ExcuteWithPolicy(async () => await client.PostAsync(ApiConfig.ApiEndPoint, messageContent));
-            var response = await gptResponse.Content.ReadAsStringAsync();
-            if (!gptResponse.IsSuccessStatusCode)
+            try
             {
-                return new HttpRequestException(response);
+                var messageContent = BuildRequestBody(Question);
+                var gptResponse = await ExcuteWithPolicy(async () => await client.PostAsync(ApiConfig.ApiEndPoint, messageContent));
+                var response = await gptResponse.Content.ReadAsStringAsync();
+                if (!gptResponse.IsSuccessStatusCode)
+                {
+                    return new HttpRequestException(response);
+                }
+                var deserializeContent = JsonSerializer.Deserialize<GptResponse>(response);
+                if (deserializeContent is null || deserializeContent.choices is null || deserializeContent.choices.Length == 0)
+                {
+                    return new Exception("No Answer in Response");
+                }
+                return deserializeContent.choices.First().message.content;
             }
-            var deserializeContent = JsonSerializer.Deserialize<GptResponse>(response);
-            if (deserializeContent is null || deserializeContent.choices is null || deserializeContent.choices.Length==0)
+            catch (Exception ex)
             {
-                return new Exception("No Answer in Response");
+                return ex;
             }
-            return deserializeContent.choices.First().message.content;
+    
         }
         public StringContent BuildRequestBody(string Question)
         {
