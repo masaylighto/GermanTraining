@@ -1,13 +1,8 @@
-﻿using AnyOfTypes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OneOf;
 
 namespace Logic.Repositories;
 
 public interface IGPTClient
 {
-    public Task<AnyOf<String, Exception>> GetAnswer(string Question);
+    public Task<OneOf<String, Exception>> GetAnswer(string Question);
 }

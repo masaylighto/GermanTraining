@@ -1,6 +1,5 @@
 ﻿
-
-using AnyOfTypes;
+using OneOf;
 
 namespace Logic.Services;
 
@@ -12,5 +11,5 @@ public interface IGPTService
     /// <param name="phrases"></param>
     /// <param name="requiredWord">word you want to ensure its used in the sentence</param>
     /// <returns></returns>
-    Task<AnyOf<string, Exception>> ValidatePhrase(string phrases,string requiredWord);
+    Task<OneOf<string, Exception>> ValidatePhrase(string phrases,string requiredWord);
 }

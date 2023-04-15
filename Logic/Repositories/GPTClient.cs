@@ -1,17 +1,11 @@
 ﻿using Logic.Core;
+using Logic.Core.Helpers;
+using Logic.Core.Models;
+using OneOf;
 using Polly;
 using Polly.Retry;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Headers;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using Logic.Core.Helpers;
-using AnyOfTypes;
 using System.Text.Json;
-using Logic.Core.Models;
 
 namespace Logic.Repositories
 {
@@ -48,7 +42,7 @@ namespace Logic.Repositories
             return await retryPolicy.ExecuteAsync(HttpRequestFunc);
         }
 
-        public async Task<AnyOf<String, Exception>> GetAnswer(string Question)
+        public async Task<OneOf<String, Exception>> GetAnswer(string Question)
         {
             var messageContent = BuildRequestBody(Question);
             var gptResponse = await ExcuteWithPolicy(async () => await client.PostAsync(ApiConfig.ApiEndPoint, messageContent));

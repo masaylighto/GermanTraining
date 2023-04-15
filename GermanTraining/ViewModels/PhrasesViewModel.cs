@@ -56,13 +56,13 @@ public partial class PhrasesViewModel: ObservableObject
       ShowProgressBar();
     
       var result = await GPTService.ValidatePhrase(UserPhrases, GetWordWithoutTheConjugation());
-      if (result.IsFirst)
+      if (result.IsT0)
       {
-            UserPhrases = result.First;
+            UserPhrases = result.AsT0;
       }
       else
       {
-            UserPhrases = "Error In The Application : " + result.Second.Message;
+            UserPhrases = "Error In The Application : " + result.AsT1.Message;
       }
       EnableButtonGrid();
       HideProgressBar();

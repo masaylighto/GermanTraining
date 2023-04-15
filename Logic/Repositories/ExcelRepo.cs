@@ -1,11 +1,6 @@
 ﻿using LinqToExcel;
 using LinqToExcel.Query;
 using Logic.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Logic.Repositories;
 
