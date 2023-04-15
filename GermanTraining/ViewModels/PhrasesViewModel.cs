@@ -90,10 +90,10 @@ public partial class PhrasesViewModel: ObservableObject
         CurrentWord = await ExcelService.GetRandomWord(new());
     }
     string GetWordWithoutTheConjugation() {
-
+        //temporary solution 
         var indexOfConjugation = CurrentWord.GermanWord.IndexOf(",");
         indexOfConjugation = indexOfConjugation == -1 ? CurrentWord.GermanWord.Length : indexOfConjugation;
-        var withOutConjugationIfexist = CurrentWord.GermanWord.Substring(0, CurrentWord.GermanWord.IndexOf(","));
+        var withOutConjugationIfexist = CurrentWord.GermanWord.Substring(0, indexOfConjugation);
         return withOutConjugationIfexist;
     }
 }
