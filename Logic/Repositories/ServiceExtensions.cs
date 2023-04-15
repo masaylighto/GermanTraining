@@ -2,8 +2,6 @@
 
 using LinqToExcel;
 using Logic.Core;
-using Logic.Services;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Logic.Repositories;

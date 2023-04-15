@@ -4,14 +4,18 @@ using GermanTraining.Pages;
 using GermanTraining.ViewModels;
 using LinqToExcel;
 using Logic.Core;
+using Logic.Core.DataType;
 using Logic.Core.Helpers;
 using Logic.Repositories;
 using Logic.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Win32;
 using System;
+using System.IO;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace GermanTraining;
 
@@ -20,6 +24,7 @@ public class Program
     [STAThread]
     static void Main(string[] args)
     {
+   
         IHost host = CreateHostBuilder(args);
         RunMainWindow(host);
       
@@ -34,7 +39,7 @@ public class Program
         var host = Host.CreateDefaultBuilder(args);
         host.ConfigureAppConfiguration((ConfigBuilder) => {
             ConfigBuilder.AddEnvironmentVariables();
-            ConfigBuilder.AddJsonFile("AppSettings.json");
+            ConfigBuilder.AddJsonFile(Constant.PathToConfigurationFile);
         });
         host.ConfigureServices(AddService);        
         return host.Build();
@@ -42,7 +47,7 @@ public class Program
     static void AddService(HostBuilderContext context,IServiceCollection services)
     {
         services.AddSingleton<MainWindow>();
-
+       
         services.AddScoped<ArticlesPage>();
         services.AddScoped<ArticlesViewModel>();
 
@@ -52,6 +57,7 @@ public class Program
         services.AddScoped<PhrasesPage>();        
         services.AddScoped<PhrasesViewModel>();
 
+        services.AddConfigurationEditor();
         services.AddSerilogLogger();
 
         services.AddGPTClient(CreateGPTApiConfig(context.Configuration));
@@ -69,7 +75,26 @@ public class Program
     }
     static ExcelQueryFactory CreateExcelQueryFactory(IConfiguration configuration)
     {
-        return new(configuration.GetValue<string>("ExcelFilePath"));
+        string filePath = configuration.GetValue<string>("ExcelFilePath");
+        if (File.Exists(configuration.GetValue<string>("ExcelFilePath")))
+        {
+            return new(filePath);
+
+        }
+        
+        OpenFileDialog openFileDialog = new OpenFileDialog();
+
+        openFileDialog.Filter = "Excel Files|*.xls;*.xlsx;*.xlsm";
+        if (!openFileDialog.ShowDialog().Value)
+        {
+            MessageBox.Show("Sorry but without an excel file you can't use this app");
+            Application.Current.Shutdown();
+        }
+        IConfigurationEditor configurationEditor = new ConfigurationEditor();
+        configurationEditor.Parse(Constant.PathToConfigurationFile);
+        configurationEditor.SetValue("ExcelFilePath", openFileDialog.FileName);
+        configuration["ExcelFilePath"] = openFileDialog.FileName;
+        return new ExcelQueryFactory(openFileDialog.FileName);
     }
 
 }
