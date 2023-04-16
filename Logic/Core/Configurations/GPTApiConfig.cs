@@ -13,4 +13,5 @@ public class GPTApiConfig
     public int? FurtherTokens { get; set; } = null;
     public int RequestRetryCount { get; set; } = 5;
     public int BetweenFailedRequestDelayInSecond { get; set; } = 5;
+    public bool Stream { get; set; }
 }
