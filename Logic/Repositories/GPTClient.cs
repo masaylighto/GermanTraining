@@ -1,10 +1,14 @@
 ﻿using Logic.Core;
+using Logic.Core.DataType;
 using Logic.Core.Helpers;
 using Logic.Core.Models;
 using OneOf;
 using Polly;
 using Polly.Retry;
 using System;
+using System.Diagnostics;
+using System.IO;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
@@ -22,8 +26,15 @@ namespace Logic.Repositories
         {
             ApiConfig = apiConfig;
             Logger = logger;
-            retryPolicy = CreateRetryPolicy();
             ApplyRequestHeaders();
+            ApplyHttpConfig();
+        }
+        void ApplyHttpConfig()
+        {
+
+            client.DefaultRequestVersion = HttpVersion.Version30;
+            client.DefaultVersionPolicy = HttpVersionPolicy.RequestVersionExact;
+
         }
         void ApplyRequestHeaders() 
         {
@@ -31,24 +42,6 @@ namespace Logic.Repositories
             client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("zip"));
             client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("deflate"));
             client.DefaultRequestHeaders.Connection.Add("keep-alive");
-        }
-        private AsyncRetryPolicy<HttpResponseMessage> CreateRetryPolicy()
-        {
-
-            return Policy.Handle<HttpRequestException>()
-                 .OrResult<HttpResponseMessage>(r => r.IsSuccessStatusCode)
-                 .WaitAndRetryAsync(ApiConfig.RequestRetryCount, (_) => TimeSpan.FromSeconds(ApiConfig.BetweenFailedRequestDelayInSecond), (exception, timeSpan, retryCount, context) =>
-                 {
-                     if (exception.Exception is not null)
-                     {
-                         Logger.Error($"{DateTime.Now.ToString("yyyy/MM/dd/HH/mm/ss")} - GPT Request Exception: {exception.Exception.Message}");
-                     }
-                 });
-        }
-        private async Task<HttpResponseMessage> ExcuteWithPolicy(Func<Task<HttpResponseMessage>> HttpRequestFunc)
-        {
-
-            return await retryPolicy.ExecuteAsync(HttpRequestFunc);
         }
       
         HttpRequestMessage BuildRequestMessage(string Question)
@@ -65,7 +58,7 @@ namespace Logic.Repositories
                 //depend on if we want to receive the HTTP response streamed or EndtoEnd
                 var CompletionOption = ApiConfig.Stream ? HttpCompletionOption.ResponseHeadersRead:
                                                           HttpCompletionOption.ResponseContentRead;
-                var gptResponse = await ExcuteWithPolicy(async () => await client.SendAsync(BuildRequestMessage(Question), CompletionOption));
+                var gptResponse =  await client.SendAsync(BuildRequestMessage(Question), CompletionOption);
                 gptResponse.EnsureSuccessStatusCode();
                 if (!gptResponse.IsSuccessStatusCode)
                 {
@@ -89,13 +82,25 @@ namespace Logic.Repositories
         {
             try
             {
-                //get steam get lines convert them to json combine answer return it               
-                string answer = string.Empty;
-                foreach (var response in ExtractAnswers(ResponseToLines(responseMessage)))
-                {                   
-                   answer += response;                  
-                } 
-                return answer;
+                //get steam get lines convert them to json combine answer return it 
+                string completeResponse = string.Empty;
+                var responseStream = responseMessage.Content.ReadAsStream();
+                var streamReader = new StreamReader(responseStream);
+                while (!streamReader.EndOfStream)
+                {
+                    var response = streamReader.ReadLine();
+                    if (string.IsNullOrEmpty(response))
+                    {
+                        continue;
+                    }
+                    var answer = ExtractAnswer(response);
+                    if (answer.IsT0)
+                    {
+                        completeResponse += answer.AsT0;
+                    }
+
+                }
+                return completeResponse;
             }
             catch (Exception ex)
             {
@@ -131,51 +136,34 @@ namespace Logic.Repositories
        
 
         }
-        IEnumerable<string> ResponseToLines(HttpResponseMessage stream)
+        OneOf<string,None> ExtractAnswer(string response)
         {
-            var responseStream = stream.Content.ReadAsStream();
-            var streamReader = new StreamReader(responseStream);
-            while (!streamReader.EndOfStream)
+           
+            GptResponse deserializeContent = default;
+            try // not the best way out there to handle bad json, but its temporary 
             {
-                var response = streamReader.ReadLine();
-                if (string.IsNullOrEmpty(response))
+                var indexOfjsonStart= response.IndexOf("{");
+                if (indexOfjsonStart==-1)
                 {
-                    continue;
+                        return new None();
                 }
-                yield return response;
+                var jsonString=response.Substring(indexOfjsonStart, response.Length- indexOfjsonStart);// remove anything before json brackets
+                deserializeContent = JsonSerializer.Deserialize<GptResponse>(jsonString);
             }
-        }
-        IEnumerable<string> ExtractAnswers(IEnumerable<string> responses)
-        {
-            foreach (var response in responses)
+            catch
             {
-                GptResponse deserializeContent = default;
-                try // not the best way out there to handle bad json, but its temporary 
-                {
-                    var indexOfjsonStart= response.IndexOf("{");
-                    if (indexOfjsonStart==-1)
-                    {
-                        continue;
-                    }
-                    var jsonString=response.Substring(indexOfjsonStart, response.Length- indexOfjsonStart);// remove anything before json brackets
-                    deserializeContent = JsonSerializer.Deserialize<GptResponse>(jsonString);
-                }
-                catch
-                {
-
-                }
-
-                if (deserializeContent is null ||
-                    deserializeContent.choices is null ||
-                    deserializeContent.choices.Length == 0 ||
-                    deserializeContent.choices.First().delta is null ||
-                    string.IsNullOrEmpty(deserializeContent.choices.First().delta.content))
-                {
-                    continue;
-                }
-                yield return deserializeContent.choices.First().delta.content;
 
             }
+
+            if (deserializeContent is null ||
+                deserializeContent.choices is null ||
+                deserializeContent.choices.Length == 0 ||
+                deserializeContent.choices.First().delta is null ||
+                string.IsNullOrEmpty(deserializeContent.choices.First().delta.content))
+            {
+                return new None();
+            }
+            return deserializeContent.choices.First().delta.content;           
 
         }
         public StringContent BuildRequestBody(string Question)
